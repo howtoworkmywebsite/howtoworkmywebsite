@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Websites Work - Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        /* Interactive Demo Boxes */
+        .demo-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .demo-box:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        /* HTML Demo */
+        .html-demo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+
+        .code-block .tag {
+            color: #e06c75;
+        }
+
+        .code-block .attr {
+            color: #d19a66;
+        }
+
+        .code-block .string {
+            color: #98c379;
+        }
+
+        .code-block .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* CSS Demo */
+        .css-demo {
+            text-align: center;
+        }
+
+        .style-button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-plain {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-styled {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-styled:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        /* JavaScript Demo */
+        .js-demo {
+            text-align: center;
+        }
+
+        .counter {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .control-button {
+            padding: 12px 25px;
+            margin: 5px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #667eea;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+
+        .control-button.reset {
+            background: #e74c3c;
+        }
+
+        .control-button.reset:hover {
+            background: #c0392b;
+        }
+
+        /* Form Demo */
+        .form-demo {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .form-output {
+            margin-top: 20px;
+            padding: 20px;
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            display: none;
+        }
+
+        /* Tabs Demo */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            padding: 25px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 0 8px 8px 8px;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Visual Elements */
+        .grid-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .grid-item {
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Key Points List */
+        .key-points {
+            list-style: none;
+            padding: 0;
+        }
+
+        .key-points li {
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .key-points li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .key-points li strong {
+            color: #667eea;
+        }
+
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .link-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .link-box a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.3em;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .link-box a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .html-demo {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .section h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 How Websites Work</h1>
+            <p>An Interactive Demonstration</p>
+        </header>
+
+        <div class="content">
+            <!-- Introduction Section -->
+            <div class="section">
+                <h2>📚 Introduction</h2>
+                <p>Hello! Today I'm going to explain how websites work by showing you real, working examples right here on this page.</p>
+                <p>A website is made up of three main technologies:</p>
+                <ul class="key-points">
+                    <li><strong>HTML</strong> - The structure and content (like the skeleton)</li>
+                    <li><strong>CSS</strong> - The design and styling (like the clothes and makeup)</li>
+                    <li><strong>JavaScript</strong> - The interactivity and behavior (like the brain and muscles)</li>
+                </ul>
+
+                <div class="link-box">
+                    <h3 style="margin-bottom: 10px;">🔗 Want to learn about Navigation & Hosting?</h3>
+                    <p>Check out our separate demo page!</p>
+                    <a href="navigation-demo.html" target="_blank">Open Navigation & Hosting Demo →</a>
+                </div>
+            </div>
+
+            <!-- HTML Section -->
+            <div class="section">
+                <h2>🏗️ HTML - The Structure</h2>
+                <p>HTML (HyperText Markup Language) is the foundation of every website. It defines the structure and content.</p>
+                
+                <div class="demo-box">
+                    <h3>Live Example:</h3>
+                    <div class="html-demo">
+                        <div>
+                            <h4>HTML Code:</h4>
+                            <div class="code-block">
+<span class="tag">&lt;h1&gt;</span>Welcome!<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;p&gt;</span>This is a paragraph<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;button&gt;</span>Click Me<span class="tag">&lt;/button&gt;</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>What You See:</h4>
+                            <div style="padding: 20px; background: white; border: 2px dashed #667eea; border-radius: 8px;">
+                                <h1 style="color: #333; margin-bottom: 10px;">Welcome!</h1>
+                                <p style="color: #666; margin-bottom: 15px;">This is a paragraph</p>
+                                <button style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">Click Me</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS Section -->
+            <div class="section">
+                <h2>🎨 CSS - The Styling</h2>
+                <p>CSS (Cascading Style Sheets) makes websites beautiful by adding colors, layouts, fonts, and animations.</p>
+                
+                <div class="demo-box">
+                    <h3>Live Example - See the Difference:</h3>
+                    <div class="html-demo">
+                        <div>
+                            <h4>CSS Code:</h4>
+                            <div class="code-block">
+<span class="tag">button</span> {
+  <span class="attr">background</span>: <span class="string">linear-gradient(...)</span>;
+  <span class="attr">color</span>: <span class="string">white</span>;
+  <span class="attr">padding</span>: <span class="string">15px 30px</span>;
+  <span class="attr">border</span>: <span class="string">none</span>;
+  <span class="attr">border-radius</span>: <span class="string">8px</span>;
+  <span class="attr">box-shadow</span>: <span class="string">0 4px 15px...</span>;
+  <span class="attr">transition</span>: <span class="string">all 0.3s</span>;
+}
+
+<span class="tag">button:hover</span> {
+  <span class="attr">transform</span>: <span class="string">translateY(-4px)</span>;
+  <span class="attr">box-shadow</span>: <span class="string">0 6px 20px...</span>;
+}
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Result:</h4>
+                            <div class="css-demo">
+                                <p style="margin-bottom: 20px;"><strong>Without CSS:</strong></p>
+                                <button class="style-button btn-plain">Plain Button</button>
+                                
+                                <p style="margin: 30px 0 20px;"><strong>With CSS:</strong></p>
+                                <button class="style-button btn-styled">Styled Button</button>
+                                <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                                    👆 Hover over the styled button to see the animation!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-box">
+                    <h3>CSS Can Create Layouts:</h3>
+                    <div class="grid-demo">
+                        <div class="grid-item">Box 1</div>
+                        <div class="grid-item">Box 2</div>
+                        <div class="grid-item">Box 3</div>
+                        <div class="grid-item">Box 4</div>
+                    </div>
+                    <p style="text-align: center; margin-top: 15px; color: #666;">
+                        These boxes automatically adjust to screen size using CSS Grid!
+                    </p>
+                </div>
+            </div>
+
+            <!-- JavaScript Section -->
+            <div class="section">
+                <h2>⚡ JavaScript - The Interactivity</h2>
+                <p>JavaScript makes websites interactive and dynamic. It responds to user actions and can change content in real-time.</p>
+                
+                <div class="demo-box">
+                    <h3>Live Example - Interactive Counter:</h3>
+                    <div class="html-demo">
+                        <div>
+                            <h4>JavaScript Code:</h4>
+                            <div class="code-block">
+<span class="tag">let</span> count = <span class="string">0</span>;
+
+<span class="tag">function</span> <span class="attr">increment</span>() {
+  count++;
+  <span class="attr">updateCounter</span>();
+}
+
+<span class="tag">function</span> <span class="attr">decrement</span>() {
+  count--;
+  <span class="attr">updateCounter</span>();
+}
+
+<span class="tag">function</span> <span class="attr">updateCounter</span>() {
+  document.<span class="attr">getElementById</span>(<span class="string">'counter'</span>)
+    .textContent = count;
+}
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Result - Try it:</h4>
+                            <div class="js-demo">
+                                <div class="counter" id="counter">0</div>
+                                <button class="control-button" onclick="increment()">➕ Add 1</button>
+                                <button class="control-button" onclick="decrement()">➖ Subtract 1</button>
+                                <button class="control-button reset" onclick="resetCounter()">🔄 Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-box">
+                    <h3>Interactive Tabs:</h3>
+                    <div class="tabs">
+                        <button class="tab active" onclick="showTab('tab1')">What is a URL?</button>
+                        <button class="tab" onclick="showTab('tab2')">How Browsers Work</button>
+                        <button class="tab" onclick="showTab('tab3')">Client vs Server</button>
+                    </div>
+                    
+                    <div id="tab1" class="tab-content active">
+                        <h3>🔗 What is a URL?</h3>
+                        <p><strong>URL</strong> stands for "Uniform Resource Locator" - it's the address of a website.</p>
+                        <p><strong>Example:</strong> https://www.example.com/page</p>
+                        <ul style="margin-left: 20px; line-height: 1.8;">
+                            <li><strong>https://</strong> - The protocol (how to connect)</li>
+                            <li><strong>www.example.com</strong> - The domain name (which computer to connect to)</li>
+                            <li><strong>/page</strong> - The specific page you want</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="tab2" class="tab-content">
+                        <h3>🌐 How Browsers Work</h3>
+                        <p>When you type a URL in your browser:</p>
+                        <ol style="margin-left: 20px; line-height: 1.8;">
+                            <li>Your browser sends a request to a server</li>
+                            <li>The server sends back HTML, CSS, and JavaScript files</li>
+                            <li>Your browser reads and displays these files</li>
+                            <li>JavaScript makes the page interactive</li>
+                        </ol>
+                    </div>
+                    
+                    <div id="tab3" class="tab-content">
+                        <h3>💻 Client vs Server</h3>
+                        <p><strong>Client (Your Browser):</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.8;">
+                            <li>Displays the website</li>
+                            <li>Runs JavaScript</li>
+                            <li>Handles user interactions</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Server (Remote Computer):</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.8;">
+                            <li>Stores website files</li>
+                            <li>Processes requests</li>
+                            <li>Sends data to browsers</li>
+                        </ul>
+                    </div>
+                    
+                    <p style="margin-top: 20px; padding: 15px; background: #e8f4ff; border-left: 4px solid #667eea; border-radius: 5px;">
+                        <strong>💡 JavaScript Tip:</strong> These tabs work using JavaScript to hide and show different content sections without reloading the page!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Form Demo Section -->
+            <div class="section">
+                <h2>📝 Forms - User Input</h2>
+                <p>Websites use forms to collect information from users. Try it yourself:</p>
+                
+                <div class="demo-box">
+                    <div class="form-demo">
+                        <form id="demoForm" onsubmit="handleSubmit(event)">
+                            <div class="form-group">
+                                <label>Your Name:</label>
+                                <input type="text" id="userName" placeholder="Enter your name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Favorite Website:</label>
+                                <input type="text" id="favSite" placeholder="e.g., google.com" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Why do you like it?</label>
+                                <textarea id="reason" rows="3" placeholder="Tell us why..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-button">Submit Form</button>
+                        </form>
+                        
+                        <div id="formOutput" class="form-output">
+                            <h3>✅ Form Submitted!</h3>
+                            <p id="outputText"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="section">
+                <h2>🎯 Summary</h2>
+                <p>Now you understand how websites work!</p>
+                <ul class="key-points">
+                    <li><strong>HTML</strong> creates the structure and content</li>
+                    <li><strong>CSS</strong> makes it look beautiful</li>
+                    <li><strong>JavaScript</strong> makes it interactive</li>
+                    <li><strong>Forms</strong> collect user input and send it back to servers</li>
+                </ul>
+                <p style="margin-top: 20px; font-size: 1.2em; text-align: center; color: #667eea;"><strong>Everything you see on this page is a working example of these technologies!</strong></p>
+
+                <div class="link-box" style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 10px;">📚 Continue Learning</h3>
+                    <p>Learn about how pages connect and where websites live</p>
+                    <a href="navigation-demo.html" target="_blank">Navigation & Hosting Demo →</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>This interactive demonstration was created using HTML, CSS, and JavaScript</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2024 - Educational Purpose</p>
+        </footer>
+    </div>
+
+    <script>
+        // Counter Demo
+        let count = 0;
+
+        function increment() {
+            count++;
+            updateCounter();
+        }
+
+        function decrement() {
+            count--;
+            updateCounter();
+        }
+
+        function resetCounter() {
+            count = 0;
+            updateCounter();
+        }
+
+        function updateCounter() {
+            document.getElementById('counter').textContent = count;
+        }
+
+        // Tabs Demo
+        function showTab(tabId) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active from all buttons
+            const buttons = document.querySelectorAll('.tab');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Form Demo
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('userName').value;
+            const site = document.getElementById('favSite').value;
+            const reason = document.getElementById('reason').value;
+            
+            const output = document.getElementById('formOutput');
+            const outputText = document.getElementById('outputText');
+            
+            outputText.innerHTML = `
+                <strong>Name:</strong> ${name}<br>
+                <strong>Favorite Site:</strong> ${site}<br>
+                <strong>Reason:</strong> ${reason}
+            `;
+            
+            output.style.display = 'block';
+            
+            // Reset form
+            document.getElementById('demoForm').reset();
+        }
+    </script>
+</body>
+</html>
